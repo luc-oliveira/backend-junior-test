@@ -19,10 +19,10 @@ Criar uma Web API em C# com o banco de dados fornecido neste repositório, e des
 
 •   Descrever neste README do projeto os exemplos de uso da sua API
 
-## Pontos avaliados:
-•	Consultas ao Banco de Dados
-•	Estrutura da Web API
-•	Qualidade do código
+## Pontos avaliados:<br />
+•	Consultas ao Banco de Dados <br />
+•	Estrutura da Web API<br />
+•	Qualidade do código<br />
 
-Candidato: <Seu Nome aqui>
-Exemplos de uso: <Descreva o uso da sua API>
+Candidato: Seu Nome aqui<br />
+Exemplos de uso: Descreva o uso da sua API
