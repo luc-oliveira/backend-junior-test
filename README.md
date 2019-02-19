@@ -27,38 +27,38 @@ Criar uma Web API em C# com o banco de dados fornecido neste repositório, e des
 Candidato: Jeremias dos Santos Francelino<br />
 Exemplos de uso: <br />
 
-• Obter a média de preço dos produtos das notas fiscais de uma empresa, arrecadadas em intervalo de datas “de-até” no formato       (dd/MM/aaaa). O resultado deve ser agrupado por mês:
-    URL: apimarqdesafio/NotasFiscais/?100=idEmpresa&101=dd/MM/yyyy&102=dd/MM/yyyy
-        100 -> IdEmpresa
-        101 -> Data inicial
-        102 -> Data final
-        Todos os campos de filtro são obrigatórios
-    Método: GET
-    Retorno:
-        [
-            {
-                'Mes': string,
-                'Produtos': [
-                    {
-                        'Nome': string,
-                        'Marca': string,
-                        'MediaPreco': decimal
-                    },...
-                ]
-            },...
-        ]
+• Obter a média de preço dos produtos das notas fiscais de uma empresa, arrecadadas em intervalo de datas “de-até” no formato       (dd/MM/aaaa). O resultado deve ser agrupado por mês:<br />
+    URL: apimarqdesafio/NotasFiscais/?100=idEmpresa&101=dd/MM/yyyy&102=dd/MM/yyyy<br />
+        100 -> IdEmpresa<br />
+        101 -> Data inicial<br />
+        102 -> Data final<br />
+        Todos os campos de filtro são obrigatórios<br />
+    Método: GET<br />
+    Retorno:<br />
+        [<br />
+            {<br />
+                'Mes': string,<br />
+                'Produtos': [<br />
+                    {<br />
+                        'Nome': string,<br />
+                        'Marca': string,<br />
+                        'MediaPreco': decimal<br />
+                    },...<br />
+                ]<br />
+            },...<br />
+        ]<br />
 • Cadastrar nota fiscal com a seguinte regra de validação no servidor:<br />
-    ...
+    ...<br />
 • Atualizar uma nota fiscal com a seguinte regra de validação no servidor:<br />
-    URL: apimarqdesafio/NotasFiscais
-        Enviar no body objeto (application/json) a ser atualizado no seguinte formato:
-            {
-                'Id': int,
-                'IdEmpresa': int,
-                'Total': decimal,
-                'DataHora': 'MM/dd/yyyy HH:mm:ss'
-            }
-    Método: PUT
-• Deletar uma nota fiscal
-    URL: apimarqdesafio/NotasFiscais/IdNotaFiscal
-    Método: DELETE
+    URL: apimarqdesafio/NotasFiscais<br />
+        Enviar no body objeto (application/json) a ser atualizado no seguinte formato:<br />
+            {<br />
+                'Id': int,<br />
+                'IdEmpresa': int,<br />
+                'Total': decimal,<br />
+                'DataHora': 'MM/dd/yyyy HH:mm:ss'<br />
+            }<br />
+    Método: PUT<br />
+• Deletar uma nota fiscal<br />
+    URL: apimarqdesafio/NotasFiscais/IdNotaFiscal<br />
+    Método: DELETE<br />
