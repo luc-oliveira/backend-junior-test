@@ -24,5 +24,41 @@ Criar uma Web API em C# com o banco de dados fornecido neste repositório, e des
 •	Estrutura da Web API<br />
 •	Qualidade do código<br />
 
-Candidato: Seu Nome aqui<br />
-Exemplos de uso: Descreva o uso da sua API
+Candidato: Jeremias dos Santos Francelino<br />
+Exemplos de uso: <br />
+
+• Obter a média de preço dos produtos das notas fiscais de uma empresa, arrecadadas em intervalo de datas “de-até” no formato       (dd/MM/aaaa). O resultado deve ser agrupado por mês:
+    URL: apimarqdesafio/NotasFiscais/?100=idEmpresa&101=dd/MM/yyyy&102=dd/MM/yyyy
+        100 -> IdEmpresa
+        101 -> Data inicial
+        102 -> Data final
+        Todos os campos de filtro são obrigatórios
+    Método: GET
+    Retorno:
+        [
+            {
+                'Mes': string,
+                'Produtos': [
+                    {
+                        'Nome': string,
+                        'Marca': string,
+                        'MediaPreco': decimal
+                    },...
+                ]
+            },...
+        ]
+• Cadastrar nota fiscal com a seguinte regra de validação no servidor:<br />
+    ...
+• Atualizar uma nota fiscal com a seguinte regra de validação no servidor:<br />
+    URL: apimarqdesafio/NotasFiscais
+        Enviar no body objeto (application/json) a ser atualizado no seguinte formato:
+            {
+                'Id': int,
+                'IdEmpresa': int,
+                'Total': decimal,
+                'DataHora': 'MM/dd/yyyy HH:mm:ss'
+            }
+    Método: PUT
+• Deletar uma nota fiscal
+    URL: apimarqdesafio/NotasFiscais/IdNotaFiscal
+    Método: DELETE
