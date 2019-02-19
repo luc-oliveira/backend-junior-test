@@ -186,6 +186,7 @@
     <Compile Include="Models\NotasFiscais.cs" />
     <Compile Include="Models\NotasFiscaisProdutos.cs" />
     <Compile Include="Models\Produtos.cs" />
+    <Compile Include="Models\ProdutoUpdate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

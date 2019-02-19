@@ -13,7 +13,7 @@ namespace ApiMarqDesafio.Models
         public int IdEmpresa { get; set; }
         public DateTime DataHora { get; set; }
         public decimal Total { get; set; }
-        public 
+        public List<ProdutoUpdate> Produtos { get; set; }
         public const string ALIAS = "NF";
 
         public static bool nfValida(int id, SqlConnection sqlCon)

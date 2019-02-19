@@ -131,6 +131,24 @@ namespace ApiMarqDesafio.Controllers
             SqlConnection sqlCon = null;
             try
             {
+                sqlCon = new SqlConnection(ConfigurationManager.ConnectionStrings["MarqDatabaseConnectionString"].ConnectionString);
+                sqlCon.Open();
+                //Verifica se Id Empresa é válido
+                if (!Empresas.empresaValida(value.IdEmpresa, sqlCon))
+                {
+                    throw new Exception("Id Empresa não é válido!");
+                }
+                //Verifica se produtos são válidos
+                if (value.Produtos == null || value.Produtos.Any(e => !Produtos.produtoValido(e.Id, sqlCon)))
+                {
+                    throw new Exception("É necessário informar produtos válidos!");
+                }
+                //Verifica se valor da nota fiscal é igual a soma dos produtos associados
+                if (value.Total != value.Produtos.Sum(s => s.Preco))
+                {
+                    throw new Exception("Soma dos preços dos produtos é diferente do valor da Nota Fiscal!");
+                }
+
                 response = Request.CreateResponse(HttpStatusCode.OK, "Nota Fiscal cadastrada com sucesso!");
             }
             catch (Exception e)
