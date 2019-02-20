@@ -143,11 +143,46 @@ namespace ApiMarqDesafio.Controllers
                 {
                     throw new Exception("É necessário informar produtos válidos!");
                 }
+                //Verifica se a nota fiscal já existe
+                if (value.DataHora.Equals(new DateTime()))
+                {
+                    throw new Exception("É necessário informar uma data válida!");
+                }
+                //Elimina produtos duplicados
+
                 //Verifica se valor da nota fiscal é igual a soma dos produtos associados
                 if (value.Total != value.Produtos.Sum(s => s.Preco))
                 {
                     throw new Exception("Soma dos preços dos produtos é diferente do valor da Nota Fiscal!");
                 }
+
+                //Cadastra Nota Fiscal
+                string script = $"INSERT INTO dbo.NotasFiscais (IdEmpresa, DataHora, Total) " +
+                    $"OUTPUT INSERTED.Id VALUES ({value.IdEmpresa}, '{value.DataHora}', {value.Total.ToString(CultureInfo.GetCultureInfo("en-GB"))})";
+                SqlCommand sqlCommand = new SqlCommand(script, sqlCon);
+                int IdNotaFiscal = 0;
+                try
+                {
+                    using (SqlDataReader reader = sqlCommand.ExecuteReader())
+                    {
+                        reader.Read();
+                        IdNotaFiscal = Convert.ToInt32(reader[0]);
+                    }
+                }
+                catch (Exception ex) { throw new Exception($"Erro ao cadastrar Nota Fiscal: {ex.Message}"); }
+                //Cadastra Nota Fiscal Produto
+                string[] inserts = value.Produtos
+                    .Select(e => $"({IdNotaFiscal}, {e.Id}, {e.Quantidade}, {e.Preco.ToString(CultureInfo.GetCultureInfo("en-GB"))})")
+                    .ToArray();
+                script = $"INSERT INTO dbo.NotasFicaisProdutos (IdNota, IdProduto, Quantidade, Preco) VALUES {string.Join(", ", inserts)}";
+                sqlCommand = new SqlCommand(script, sqlCon);
+                int linhasAfetadas = 0;
+                try
+                {
+                    linhasAfetadas = sqlCommand.ExecuteNonQuery();
+                    if (linhasAfetadas != value.Produtos.Count) throw new Exception("Não foi possível inserir todos as Notas Fiscais Produtos!");
+                }
+                catch (Exception ex) { throw new Exception($"Erro ao cadastrar Nota Fiscal Produto: {ex.Message}"); }
 
                 response = Request.CreateResponse(HttpStatusCode.OK, "Nota Fiscal cadastrada com sucesso!");
             }
@@ -219,9 +254,11 @@ namespace ApiMarqDesafio.Controllers
 
                 sqlCommand = new SqlCommand($"UPDATE {NotasFiscais.ALIAS} SET {string.Join(", ", updates)} " +
                     $"FROM dbo.NotasFiscais {NotasFiscais.ALIAS} WHERE {NotasFiscais.ALIAS}.Id = {value.Id}", sqlCon);
+                int linhasAfetadas = 0;
                 try
                 {
-                    sqlCommand.ExecuteNonQuery();
+                    linhasAfetadas = sqlCommand.ExecuteNonQuery();
+                    if (linhasAfetadas == 0) throw new Exception("Nenhuma linha afetada!");
                 }
                 catch (Exception ex)
                 {
@@ -258,9 +295,11 @@ namespace ApiMarqDesafio.Controllers
                 //Exclui registros de Notas Fiscais Produtos associados a Nota Fiscal excluída
                 string script = $"DELETE FROM dbo.NotasFicaisProdutos WHERE IdNota = {id}";
                 SqlCommand sqlCommand = new SqlCommand(script, sqlCon);
+                int linhasAfetadas = 0;
                 try
                 {
-                    sqlCommand.ExecuteNonQuery();
+                    linhasAfetadas = sqlCommand.ExecuteNonQuery();
+                    if (linhasAfetadas == 0) throw new Exception("Nenhuma linha afetada!");
                 }
                 catch (Exception ex)
                 {
@@ -271,7 +310,8 @@ namespace ApiMarqDesafio.Controllers
                 sqlCommand = new SqlCommand(script, sqlCon);
                 try
                 {
-                    sqlCommand.ExecuteNonQuery();
+                    linhasAfetadas = sqlCommand.ExecuteNonQuery();
+                    if (linhasAfetadas == 0) throw new Exception("Nenhuma linha afetada!");
                 }
                 catch (Exception ex)
                 {
