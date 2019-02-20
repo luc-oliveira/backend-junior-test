@@ -49,7 +49,21 @@ Exemplos de uso: <br />
         ]
 • Cadastrar nota fiscal com a seguinte regra de validação no servidor:
 o O valor total de uma nota fiscal deve ser a soma do preço dos seus produtos cadastrados na tabela NotasFiscaisProdutos
-    ...
+    URL: apimarqdesafio/NotasFiscais
+        Enviar no body objeto (application/json) a ser cadastrado no seguinte formato:
+            {
+                'IdEmpresa': int,
+                'DataHora': string (MM/dd/aaaa HH:mm:ss),
+                'Total': decimal,
+                'Produtos': [
+                    {
+                        'Id': int, 
+                        'Quantidade': int, 
+                        'Preco': decimal
+                    },...
+                ]
+            }
+    Método: POST
 • Atualizar uma nota fiscal com a seguinte regra de validação no servidor:
 o Somente é permitido atualizar a nota fiscal caso esta seja a última nota enviada pela empresa
     URL: apimarqdesafio/NotasFiscais
@@ -58,7 +72,7 @@ o Somente é permitido atualizar a nota fiscal caso esta seja a última nota env
                 'Id': int,
                 'IdEmpresa': int,
                 'Total': decimal,
-                'DataHora': 'MM/dd/aaaa HH:mm:ss'
+                'DataHora': string (MM/dd/aaaa HH:mm:ss)
             }
     Método: PUT
 • Deletar uma nota fiscal
